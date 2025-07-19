@@ -68,9 +68,9 @@ class BoardRenderer:
         svg_elements.extend([
             f'<rect x="0" y="0" width="{width}" height="{height}" fill="{SVG_BACKGROUND_COLOR}"/>',
             (
-            f'<text x="{width / 2}" y="{SVG_SCORE_HEIGHT / 2 + SVG_FONT_SIZE / 3}" '
-            f'font-family="{current_font_family}" font-size="{SVG_FONT_SIZE * 0.7}" fill="{SVG_TEXT_COLOR_LIGHT}" '
-            f'text-anchor="middle">Score: {score}</text>'
+                f'<text x="{width / 2}" y="{SVG_SCORE_HEIGHT / 2 + SVG_FONT_SIZE / 3}" '
+                f'font-family="{current_font_family}" font-size="{SVG_FONT_SIZE * 0.7}" fill="{SVG_TEXT_COLOR_LIGHT}" '
+                f'text-anchor="middle">Score: {score}</text>'
             ),
         ])
 

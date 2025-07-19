@@ -9,8 +9,9 @@ Direction = Literal["up", "down", "left", "right"]
 
 
 class GameBoard:
-    def __init__(self, board: list[list[int]] | None = None, score: int = 0) -> None:
+    def __init__(self, board: list[list[int]] | None = None, total_score: int = 0, score: int = 0) -> None:
         self.size = BOARD_SIZE
+        self.total_score = total_score
         self.score = score
         self.board = board or [[0] * self.size for _ in range(self.size)]
 
@@ -21,7 +22,8 @@ class GameBoard:
             self._move_vertical(direction)
         elif direction in {"left", "right"}:
             self._move_horizontal(direction)
-
+        
+        self.total_score += self.score
         return self.board != original
 
     def add_random_tile(self) -> None:
@@ -42,27 +44,21 @@ class GameBoard:
                     return False
         return True
 
-    def save(self, filepath: str) -> None:
-        """Append the current state to the game history and update total_score."""
+    def save(self, filepath: str, username: str) -> None:
+        data = {}
+
         path = Path(filepath)
-        path.parent.mkdir(parents=True, exist_ok=True)
-
-        history = []
         if path.exists():
-            with path.open() as f:
-                data = json.load(f)
-                history = data.get("history", [])
+            with path.open("r") as file:
+                data = json.load(file)
+        history = data.get("history", [])
 
-        history.append({
-            "board": self.board,
-            "score": self.score
-        })
+        # Append new turn
+        history.append({"username": username, "board": self.board, "score": self.score})
+        data = {"total_score": self.total_score, "history": history}
 
-        with path.open("w") as f:
-            json.dump({
-                "total_score": self.score,
-                "history": history
-            }, f, indent=2)
+        with open(filepath, "w") as file:
+            json.dump(data, file, indent=2)
 
     @classmethod
     def load(cls, filepath: str) -> "GameBoard":
@@ -84,8 +80,7 @@ class GameBoard:
             return board
 
         last = history[-1]
-        return cls(board=last["board"], score=data["total_score"])
-
+        return cls(board=last["board"], total_score=data["total_score"])
 
     # Private move helpers below
 
