@@ -1,3 +1,4 @@
+import math
 from pathlib import Path
 
 from game.config import (
@@ -55,9 +56,7 @@ class BoardRenderer:
                 tile_value = board[r][c]
                 tile_color = SVG_TILE_COLORS.get(tile_value, SVG_FALLBACK_TILE_COLORS)  # Default for values > 2048
                 text_color = (
-                    SVG_TEXT_COLOR_WHITE
-                    if tile_value in {8, 16, 32, 64, 128, 256, 512, 1024, 2048}
-                    else SVG_TEXT_COLOR_BLACK
+                    SVG_TEXT_COLOR_BLACK if tile_value in {2, 4} else SVG_TEXT_COLOR_WHITE
                 )  # Adjust text color for darker tiles
 
                 # Rectangle for the tile
@@ -69,11 +68,12 @@ class BoardRenderer:
                 # Text for the tile value
                 if tile_value != 0:
                     # Adjust font size for larger numbers
-                    current_font_size = SVG_FONT_SIZE
-                    if tile_value >= 1000:
-                        current_font_size *= 0.7
-                    elif tile_value >= 100:
-                        current_font_size *= 0.8
+                    n_exp = math.floor(math.log10(tile_value))
+                    n_exp = max(2, n_exp)
+                    reduction_factor = 0.8 - (n_exp - 2) * 0.1
+                    reduction_factor = max(0.2, reduction_factor)
+
+                    current_font_size = SVG_FONT_SIZE * reduction_factor
 
                     svg_elements.append(
                         f'<text x="{x + SVG_TILE_SIZE / 2}" '
