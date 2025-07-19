@@ -1,6 +1,6 @@
 from typing import Literal
 
-from game.config import BOARD_SIZE, FILE_PATH
+from game.config import BOARD_SIZE, GAME_FILE_PATH
 from game.model import GameBoard
 from game.view import BoardRenderer
 
@@ -13,7 +13,7 @@ class GameController:
         if move not in VALID_DIRECTIONS:
             return
         self.move: Direction = move
-        self.board = GameBoard.load(FILE_PATH)
+        self.board = GameBoard.load(GAME_FILE_PATH)
         self.renderer = BoardRenderer()
 
     def reset(self) -> None:
@@ -21,8 +21,8 @@ class GameController:
         board = GameBoard()
         board.add_random_tile()
         board.add_random_tile()
-        board.save(FILE_PATH)
-        print(f"New board saved to {FILE_PATH} (size: {BOARD_SIZE}x{BOARD_SIZE})")
+        board.save(GAME_FILE_PATH)
+        print(f"New board saved to {GAME_FILE_PATH} (size: {BOARD_SIZE}x{BOARD_SIZE})")
 
     def run(self) -> None:
         if self.board.is_game_over():
@@ -34,7 +34,7 @@ class GameController:
 
         if moved:
             self.board.add_random_tile()
-            self.board.save(FILE_PATH)
+            self.board.save(GAME_FILE_PATH)
         else:
             print(f"\nInvalid move ({self.move}). Board didn't change.")
 

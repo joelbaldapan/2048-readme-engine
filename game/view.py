@@ -5,10 +5,12 @@ from game.config import (
     BOARD_SIZE,
     SVG_BACKGROUND_COLOR,
     SVG_BORDER_RADIUS,
+    SVG_FALLBACK_TILE_COLORS,
     SVG_FONT_SIZE,
     SVG_GAP,
     SVG_SCORE_HEIGHT,
-    SVG_TEXT_COLOR,
+    SVG_TEXT_COLOR_BLACK,
+    SVG_TEXT_COLOR_WHITE,
     SVG_TILE_COLORS,
     SVG_TILE_SIZE,
 )
@@ -51,9 +53,11 @@ class BoardRenderer:
                 x = c * SVG_TILE_SIZE + (c + 1) * SVG_GAP
                 y = r * SVG_TILE_SIZE + (r + 1) * SVG_GAP + SVG_SCORE_HEIGHT
                 tile_value = board[r][c]
-                tile_color = SVG_TILE_COLORS.get(tile_value, "#3c3a32")  # Default for values > 2048
+                tile_color = SVG_TILE_COLORS.get(tile_value, SVG_FALLBACK_TILE_COLORS)  # Default for values > 2048
                 text_color = (
-                    SVG_TEXT_COLOR if tile_value not in {8, 16, 32, 64, 128, 256, 512, 1024, 2048} else "#f9f6f2"
+                    SVG_TEXT_COLOR_WHITE
+                    if tile_value in {8, 16, 32, 64, 128, 256, 512, 1024, 2048}
+                    else SVG_TEXT_COLOR_BLACK
                 )  # Adjust text color for darker tiles
 
                 # Rectangle for the tile
