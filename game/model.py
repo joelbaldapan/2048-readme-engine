@@ -1,6 +1,6 @@
 import json
-import os
 import random
+from pathlib import Path
 from typing import Literal
 
 from game.config import BOARD_SIZE
@@ -15,22 +15,12 @@ class GameBoard:
         self.board = board or [[0] * self.size for _ in range(self.size)]
 
     def move(self, direction: Direction) -> bool:
-        """Perform a move in the given direction.
-
-        Returns:
-            True if the board changed, False otherwise.
-
-        """
         original = [row[:] for row in self.board]
 
-        if direction == "up":
-            self._move_vertical(reverse=False)
-        elif direction == "down":
-            self._move_vertical(reverse=True)
-        elif direction == "left":
-            self._move_horizontal(reverse=False)
-        elif direction == "right":
-            self._move_horizontal(reverse=True)
+        if direction in {"up", "down"}:
+            self._move_vertical(direction)
+        elif direction in {"left", "right"}:
+            self._move_horizontal(direction)
 
         return self.board != original
 
@@ -53,32 +43,36 @@ class GameBoard:
         return True
 
     def save(self, filepath: str) -> None:
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        with open(filepath, "w") as f:
+        path = Path(filepath)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w") as f:
             json.dump({"board": self.board, "score": self.score}, f)
 
     @classmethod
     def load(cls, filepath: str) -> "GameBoard":
-        if not os.path.exists(filepath):
+        path = Path(filepath)
+        if not path.exists():
             board = cls()
             board.add_random_tile()
             board.add_random_tile()
             return board
 
-        with open(filepath) as f:
+        with path.open() as f:
             data = json.load(f)
         return cls(board=data["board"], score=data["score"])
 
     # Private move helpers below
 
-    def _move_horizontal(self, reverse: bool) -> None:
+    def _move_horizontal(self, direction: Direction) -> None:
+        reverse = direction == "right"
         for r in range(self.size):
             row = self.board[r][::-1] if reverse else self.board[r]
             merged, new_score = self._merge_row(row)
             self.score += new_score
             self.board[r] = merged[::-1] if reverse else merged
 
-    def _move_vertical(self, reverse: bool) -> None:
+    def _move_vertical(self, direction: Direction) -> None:
+        reverse = direction == "up"
         for c in range(self.size):
             col = [self.board[r][c] for r in range(self.size)]
             col = col[::-1] if reverse else col
