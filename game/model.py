@@ -72,7 +72,7 @@ class GameBoard:
             self.board[r] = merged[::-1] if reverse else merged
 
     def _move_vertical(self, direction: Direction) -> None:
-        reverse = direction == "up"
+        reverse = direction == "down"
         for c in range(self.size):
             col = [self.board[r][c] for r in range(self.size)]
             col = col[::-1] if reverse else col
