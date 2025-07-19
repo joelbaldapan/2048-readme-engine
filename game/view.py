@@ -1,3 +1,4 @@
+import base64
 import math
 from pathlib import Path
 
@@ -7,11 +8,13 @@ from game.config import (
     SVG_BACKGROUND_COLOR,
     SVG_BORDER_RADIUS,
     SVG_FALLBACK_TILE_COLORS,
+    SVG_FONT_FAMILY,
+    SVG_FONT_FILE,
     SVG_FONT_SIZE,
     SVG_GAP,
     SVG_SCORE_HEIGHT,
-    SVG_TEXT_COLOR_BLACK,
-    SVG_TEXT_COLOR_WHITE,
+    SVG_TEXT_COLOR_DARK,
+    SVG_TEXT_COLOR_LIGHT,
     SVG_TILE_COLORS,
     SVG_TILE_SIZE,
 )
@@ -37,15 +40,38 @@ class BoardRenderer:
 
         svg_elements = []
 
-        # SVG header and background
+        # Open SVG tag
+        svg_elements.append(
+            f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">',
+        )
+
+        # Font embedding via <defs> inside <svg>
+        current_font_family = "Arial, sans-serif"  # Fallback
+        if SVG_FONT_FILE:
+            try:
+                font_data = base64.b64encode(Path(SVG_FONT_FILE).read_bytes()).decode("utf-8")
+                svg_elements.extend([
+                    "<defs>",
+                    (
+                        '<style type="text/css">'
+                        f'@font-face {{ font-family: "{SVG_FONT_FAMILY}"; '
+                        f'src: url("data:font/ttf;base64,{font_data}") format("truetype"); }}'
+                        "</style>"
+                    ),
+                    "</defs>",
+                ])
+                current_font_family = SVG_FONT_FAMILY
+            except FileNotFoundError:
+                print(f"Warning: Font file not found at {SVG_FONT_FILE}. Using default font.")
+
+        # Background and Score text
         svg_elements.extend([
-            f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
-            f'xmlns="http://www.w3.org/2000/svg">',
             f'<rect x="0" y="0" width="{width}" height="{height}" fill="{SVG_BACKGROUND_COLOR}"/>',
-            # Score display
+            (
             f'<text x="{width / 2}" y="{SVG_SCORE_HEIGHT / 2 + SVG_FONT_SIZE / 3}" '
-            f'font-family="Arial, sans-serif" font-size="{SVG_FONT_SIZE * 0.7}" fill="#fff" '
-            f'text-anchor="middle">Score: {score}</text>',
+            f'font-family="{current_font_family}" font-size="{SVG_FONT_SIZE * 0.7}" fill="{SVG_TEXT_COLOR_LIGHT}" '
+            f'text-anchor="middle">Score: {score}</text>'
+            ),
         ])
 
         # Draw tiles
@@ -54,20 +80,17 @@ class BoardRenderer:
                 x = c * SVG_TILE_SIZE + (c + 1) * SVG_GAP
                 y = r * SVG_TILE_SIZE + (r + 1) * SVG_GAP + SVG_SCORE_HEIGHT
                 tile_value = board[r][c]
-                tile_color = SVG_TILE_COLORS.get(tile_value, SVG_FALLBACK_TILE_COLORS)  # Default for values > 2048
-                text_color = (
-                    SVG_TEXT_COLOR_BLACK if tile_value in {2, 4} else SVG_TEXT_COLOR_WHITE
-                )  # Adjust text color for darker tiles
+                tile_color = SVG_TILE_COLORS.get(tile_value, SVG_FALLBACK_TILE_COLORS)
+                text_color = SVG_TEXT_COLOR_DARK if tile_value in {2, 4} else SVG_TEXT_COLOR_LIGHT
 
-                # Rectangle for the tile
+                # Tile rectangle
                 svg_elements.append(
                     f'<rect x="{x}" y="{y}" width="{SVG_TILE_SIZE}" height="{SVG_TILE_SIZE}" '
                     f'rx="{SVG_BORDER_RADIUS}" ry="{SVG_BORDER_RADIUS}" fill="{tile_color}"/>',
                 )
 
-                # Text for the tile value
+                # Tile number
                 if tile_value != 0:
-                    # Adjust font size for larger numbers
                     n_exp = math.floor(math.log10(tile_value))
                     n_exp = max(2, n_exp)
                     reduction_factor = 0.8 - (n_exp - 2) * 0.1
@@ -78,7 +101,7 @@ class BoardRenderer:
                     svg_elements.append(
                         f'<text x="{x + SVG_TILE_SIZE / 2}" '
                         f'y="{y + SVG_TILE_SIZE / 2 + current_font_size / 3}" '
-                        f'font-family="Arial, sans-serif" font-size="{current_font_size}" '
+                        f'font-family="{current_font_family}" font-size="{current_font_size}" '
                         f'fill="{text_color}" text-anchor="middle">{tile_value}</text>',
                     )
 
