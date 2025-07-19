@@ -43,10 +43,26 @@ class GameBoard:
         return True
 
     def save(self, filepath: str) -> None:
+        """Append the current state to the game history and update total_score."""
         path = Path(filepath)
         path.parent.mkdir(parents=True, exist_ok=True)
+
+        history = []
+        if path.exists():
+            with path.open() as f:
+                data = json.load(f)
+                history = data.get("history", [])
+
+        history.append({
+            "board": self.board,
+            "score": self.score
+        })
+
         with path.open("w") as f:
-            json.dump({"board": self.board, "score": self.score}, f)
+            json.dump({
+                "total_score": self.score,
+                "history": history
+            }, f, indent=2)
 
     @classmethod
     def load(cls, filepath: str) -> "GameBoard":
@@ -59,7 +75,17 @@ class GameBoard:
 
         with path.open() as f:
             data = json.load(f)
-        return cls(board=data["board"], score=data["score"])
+
+        history = data.get("history", [])
+        if not history:
+            board = cls()
+            board.add_random_tile()
+            board.add_random_tile()
+            return board
+
+        last = history[-1]
+        return cls(board=last["board"], score=data["total_score"])
+
 
     # Private move helpers below
 

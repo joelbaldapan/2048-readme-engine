@@ -10,11 +10,11 @@ Direction = Literal["up", "down", "left", "right"]
 
 class GameController:
     def __init__(self, move: str | None = None) -> None:
-        if move not in VALID_DIRECTIONS:
-            return
-        self.move: Direction = move
-        self.board = GameBoard.load(GAME_FILE_PATH)
         self.renderer = BoardRenderer()
+        self.board = GameBoard.load(GAME_FILE_PATH)
+        if move in VALID_DIRECTIONS:
+            self.move: Direction = move
+        
 
     def reset(self) -> None:
         """Reset the board: backs up the current file, creates a new board, and saves it."""
@@ -22,6 +22,7 @@ class GameController:
         board.add_random_tile()
         board.add_random_tile()
         board.save(GAME_FILE_PATH)
+        self.renderer.render_to_svg(self.board.board, self.board.score)
         print(f"New board saved to {GAME_FILE_PATH} (size: {BOARD_SIZE}x{BOARD_SIZE})")
 
     def run(self) -> None:
