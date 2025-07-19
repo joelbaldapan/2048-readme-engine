@@ -39,6 +39,7 @@ class GameController:
             print(f"\nInvalid move ({self.move}). Board didn't change.")
 
         self.renderer.render(self.board.board, self.board.score)
+        self.renderer.render_to_svg(self.board.board, self.board.score)
 
         if self.board.is_game_over():
             print("\nGame Over! Final score:", self.board.score)
