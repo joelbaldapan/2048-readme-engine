@@ -1,8 +1,7 @@
 import json
-import os
 from pathlib import Path
 
-USER_STATS_PATH = "data/users.json"
+from game.config import USER_STATS_PATH
 
 
 class UserStats:

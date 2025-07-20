@@ -1,8 +1,8 @@
 from typing import Literal
 
 from game.config import BOARD_SIZE, GAME_FILE_PATH
-from game.models.user_stats import UserStats
 from game.models.game_board import GameBoard
+from game.models.user_stats import UserStats
 from game.views.view import BoardRenderer
 
 VALID_DIRECTIONS = ("up", "down", "left", "right")

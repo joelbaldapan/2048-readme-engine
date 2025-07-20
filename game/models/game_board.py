@@ -22,7 +22,7 @@ class GameBoard:
             self._move_vertical(direction)
         elif direction in {"left", "right"}:
             self._move_horizontal(direction)
-        
+
         self.total_score += self.score
         return self.board != original
 

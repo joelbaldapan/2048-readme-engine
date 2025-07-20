@@ -1,5 +1,6 @@
 BOARD_SIZE: int = 5
 GAME_FILE_PATH: str = "data/current_game.json"
+USER_STATS_PATH: str = "data/users.json"
 BOARD_FILE_PATH: str = "board/current_board.svg"
 
 # SVG Rendering Constants
