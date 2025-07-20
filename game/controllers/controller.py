@@ -10,7 +10,7 @@ Direction = Literal["up", "down", "left", "right"]
 
 
 class GameController:
-    def __init__(self, username: str = "user", move: str | None = None) -> None:
+    def __init__(self, username: str = "joelbaldapan", move: str | None = None) -> None:
         self.username = username
         self.renderer = BoardRenderer()
         self.board = GameBoard.load(GAME_FILE_PATH)
