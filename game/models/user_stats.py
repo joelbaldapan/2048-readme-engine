@@ -9,7 +9,9 @@ class UserStats:
     def update(username: str, score: int) -> None:
         stats = {}
 
-        if Path(USER_STATS_PATH).exists():
+        path = Path(USER_STATS_PATH)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if path.exists():
             with open(USER_STATS_PATH) as file:
                 stats = json.load(file)
 

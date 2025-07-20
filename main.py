@@ -17,20 +17,19 @@ def main() -> None:
         print("  python main.py reset")
         return
 
-    raw_username = sys.argv[1]
+    username = sys.argv[1]
     arg = sys.argv[2].lower()
 
     if arg == "reset":
         GameController().reset()
         return
 
-    username = f"@{raw_username}"
     direction = VALID_DIRECTION_MAP.get(arg)
     if not direction:
         print(f"Invalid command: '{arg}'. Must be one of: u, d, l, r, or 'reset'")
         return
 
-    controller = GameController(username=username, move=arg)
+    controller = GameController(username=username, move=direction)
     controller.run()
 
 

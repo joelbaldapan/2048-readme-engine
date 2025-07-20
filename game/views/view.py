@@ -107,5 +107,7 @@ class BoardRenderer:
 
         svg_elements.append("</svg>")
 
-        Path(BOARD_FILE_PATH).write_text("\n".join(svg_elements))
+        path = Path(BOARD_FILE_PATH)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("\n".join(svg_elements))
         print(f"Board view exported to {BOARD_FILE_PATH}")

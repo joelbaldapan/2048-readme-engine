@@ -48,6 +48,7 @@ class GameBoard:
         data = {}
 
         path = Path(filepath)
+        path.parent.mkdir(parents=True, exist_ok=True)
         if path.exists():
             with path.open("r") as file:
                 data = json.load(file)
