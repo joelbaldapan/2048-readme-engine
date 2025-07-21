@@ -37,8 +37,8 @@ def generate_recent_moves_table() -> str:
         for move in reversed(recent_moves):  # Show most recent first
             username = move.get("username", "N/A")
             score = move.get("score", 0)
-            username_link = f"[{username}](https://github.com/{username})"
-            table_rows.append(f"| {username_link} | {score} |")
+            username_link = f"[@{username}](https://github.com/{username})"
+            table_rows.append(f"| {username_link} | +{score} |")
     except (FileNotFoundError, json.JSONDecodeError):
         table_rows.append("| No recent moves yet. | - |")
 
@@ -67,7 +67,7 @@ def generate_top_scorers_table() -> str:
 
         for i, (username, stats) in enumerate(top_5):
             total_score = stats.get("total_score", 0)
-            username_link = f"[{username}](https://github.com/{username})"
+            username_link = f"[@{username}](https://github.com/{username})"
             table_rows.append(f"| {i + 1} | {username_link} | {total_score} |")
             
     except (FileNotFoundError, json.JSONDecodeError):
