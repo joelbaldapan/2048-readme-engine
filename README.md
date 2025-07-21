@@ -12,8 +12,8 @@ To play, open an issue with the title `MOVE: [DIRECTION]`, where `[DIRECTION]` c
 
 <table align="center">
   <tr>
-    <td width="60%">
-      <img src="data/board/current_board.svg" alt="Current 2048 Board" style="width: 100%; max-width: 400px;">
+    <td width="50%">
+      <img src="data/board/board.svg" alt="Current 2048 Board" style="width: 100%; max-width: 400px;">
     </td>
     <td align="center">
         <h2 align="center">Controls</h2>

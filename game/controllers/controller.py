@@ -21,6 +21,11 @@ class GameController:
 
     def reset(self) -> None:
         """Reset the board: backs up the current file, creates a new board, and saves it."""
+
+        # Archive current board if it exists
+        if self.board:
+            self._archive()
+
         board = GameBoard()
         board.add_random_tile()
         board.add_random_tile()
@@ -37,6 +42,10 @@ class GameController:
             self.board.add_random_tile()
             self.board.save(GAME_FILE_PATH, username=self.username)
 
+            # Update global stats
+            GlobalStats.update_on_move(self.board.total_score, self.board.board, self.username)
+
+            # Update user stats
             if self.username:
                 UserStats.update(self.username, self.board.score)
         else:
@@ -51,18 +60,20 @@ class GameController:
     def end(self) -> None:
         print("\nGame Over! Final score:", self.board.total_score)
 
-        # Store global stats
-        GlobalStats.update(self.board.total_score, self.board.board)
+        # Update global stats that change only on game end
+        GlobalStats.update_on_game_end()
         print("Global stats updated.")
-
-        # Archive current game state
-        archive_file(GAME_FILE_PATH, ARCHIVE_GAME_HISTORY_PATH)
-        print(f"Final game state archived to {ARCHIVE_GAME_HISTORY_PATH}")
-
-        # Archive board state
-        archive_file(BOARD_FILE_PATH, ARCHIVE_BOARD_HISTORY_PATH)
-        print(f"Final board image archived to {ARCHIVE_BOARD_HISTORY_PATH}")
 
         # Reset the board for a new game and render it
         self.reset()
         print("New game started.")
+    
+    # Private methods below
+    def _archive(self) -> None:    
+        # Archive game state
+        archive_file(GAME_FILE_PATH, ARCHIVE_GAME_HISTORY_PATH)
+        print(f"Final game state archived to {ARCHIVE_GAME_HISTORY_PATH}")
+
+        # Archive board
+        archive_file(BOARD_FILE_PATH, ARCHIVE_BOARD_HISTORY_PATH)
+        print(f"Final board image archived to {ARCHIVE_BOARD_HISTORY_PATH}")

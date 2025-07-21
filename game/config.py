@@ -1,4 +1,4 @@
-BOARD_SIZE: int = 5
+BOARD_SIZE: int = 4
 
 # Game State
 GAME_FILE_PATH: str = "data/state/game.json"
