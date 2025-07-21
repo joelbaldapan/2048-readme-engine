@@ -3,7 +3,8 @@ import random
 from pathlib import Path
 from typing import Literal
 
-from game.config import BOARD_SIZE
+from game.config import BOARD_SIZE, GAME_FILE_PATH # Import GAME_FILE_PATH
+
 
 Direction = Literal["up", "down", "left", "right"]
 
@@ -48,10 +49,14 @@ class GameBoard:
         data = {}
 
         path = Path(filepath)
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=True, exist_ok=True) # Ensure parent directories exist
         if path.exists():
             with path.open("r") as file:
-                data = json.load(file)
+                try:
+                    data = json.load(file)
+                except json.JSONDecodeError:
+                    # Handle empty or corrupted JSON file
+                    data = {}
         history = data.get("history", [])
 
         # Append new turn
@@ -64,6 +69,9 @@ class GameBoard:
     @classmethod
     def load(cls, filepath: str) -> "GameBoard":
         path = Path(filepath)
+
+        # Make sure that the parent directories exist
+        path.parent.mkdir(parents=True, exist_ok=True) 
         if not path.exists():
             board = cls()
             board.add_random_tile()
@@ -71,7 +79,14 @@ class GameBoard:
             return board
 
         with path.open() as f:
-            data = json.load(f)
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                # Handle empty or corrupted JSON file
+                board = cls()
+                board.add_random_tile()
+                board.add_random_tile()
+                return board
 
         history = data.get("history", [])
         if not history:
@@ -121,3 +136,4 @@ class GameBoard:
                 merged_row.append(new_row[i])
         merged_row.extend([0] * (self.size - len(merged_row)))
         return merged_row, score
+

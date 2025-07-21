@@ -9,11 +9,16 @@ class UserStats:
     def update(username: str, score: int) -> None:
         stats = {}
 
+        # Make sure that the parent directories exist
         path = Path(USER_STATS_PATH)
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=True, exist_ok=True) 
         if path.exists():
             with open(USER_STATS_PATH) as file:
-                stats = json.load(file)
+                try:
+                    stats = json.load(file)
+                except json.JSONDecodeError:
+                    # Handle empty or corrupted JSON file
+                    stats = {}
 
         user_data = stats.get(username, {"moves": 0, "total_score": 0})
         user_data["moves"] += 1
