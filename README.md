@@ -11,7 +11,7 @@ _This is an engine for running 2048 on user Github profiles' README.md._
 <table align="center">
   <tr>
     <td width="50%">
-      <img src="data/board/board1.svg" alt="Current 2048 Board" style="width: 100%; max-width: 400px;">
+      <img src="data/board/board2.svg" alt="Current 2048 Board" style="width: 100%; max-width: 400px;">
     </td>
     <td align="center">
         <h4 align="center">Controls</h4>
@@ -43,6 +43,9 @@ _This is an engine for running 2048 on user Github profiles' README.md._
 <details open><summary>🏆️ Top 5 Scorers</summary>
  
 <!--START_TOP_SCORERS_TABLE-->
+| Rank | Username | Total Score |
+|---|---|---|
+| 1 | [@joelbaldapan](https://github.com/joelbaldapan) | 4 |
 <!--END_TOP_SCORERS_TABLE-->
 
 </details>
@@ -50,6 +53,10 @@ _This is an engine for running 2048 on user Github profiles' README.md._
 <details><summary>🕙️ Recent Moves</summary>
 
 <!--START_RECENT_MOVES_TABLE-->
+| Username | Score Earned |
+|---|---|
+| [@joelbaldapan](https://github.com/joelbaldapan) | +0 |
+| [@joelbaldapan](https://github.com/joelbaldapan) | +4 |
 <!--END_RECENT_MOVES_TABLE-->
 
 </details>
