@@ -51,7 +51,7 @@
 <!--START_TOP_SCORERS_TABLE-->
 | Rank | Username | Total Score |
 |---|---|---|
-| 1 | [@joel](https://github.com/joel) | 0 |
+| 1 | [@joelbaldapan](https://github.com/joelbaldapan) | 4 |
 <!--END_TOP_SCORERS_TABLE-->
 
 </details>
@@ -59,11 +59,9 @@
 <details open><summary>🕙️ Recent Moves</summary>
 
 <!--START_RECENT_MOVES_TABLE-->
-
-| Username                         | Score Earned |
-| -------------------------------- | ------------ |
-| [@joel](https://github.com/joel) | +0           |
-
+| Username | Score Earned |
+|---|---|
+| [@joelbaldapan](https://github.com/joelbaldapan) | +4 |
 <!--END_RECENT_MOVES_TABLE-->
 
 </details>
