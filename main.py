@@ -14,8 +14,8 @@ def main() -> None:
     # Make sure the arguments are correct
     if len(sys.argv) != 3:
         print("Usage:")
-        print("  python main.py <username> <command>")
-        print("  python main.py reset")
+        print("  python3 main.py <username> <command>")
+        print("  python3 main.py reset")
         return
 
     username = sys.argv[1]
