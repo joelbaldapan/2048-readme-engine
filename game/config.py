@@ -2,9 +2,9 @@ BOARD_SIZE: int = 4
 
 # Game State
 GAME_FILE_PATH: str = "data/state/game.json"
-ARCHIVE_GAME_HISTORY_PATH: str = "data/state/history" #
+ARCHIVE_GAME_HISTORY_PATH: str = "data/state/history"
 
-# Board Images 
+# Board Images
 BOARD_FILE_PATH: str = "data/board/board.svg"
 ARCHIVE_BOARD_HISTORY_PATH: str = "data/board/history"
 
@@ -24,25 +24,25 @@ SVG_FONT_FILE = "assets/fonts/MartianMono-Bold.ttf"
 SVG_FONT_FAMILY = "Martian Mono"
 
 # VANILLA COLORS
-# SVG_BACKGROUND_COLOR = "#a6a6a6"
-# SVG_EMPTY_TILE_COLOR = "#c9c9c9"
-# SVG_TEXT_COLOR_LIGHT = "#fefbf7"
-# SVG_TEXT_COLOR_DARK = "#383834"
-# SVG_TILE_COLORS = {
-#     0: SVG_EMPTY_TILE_COLOR,
-#     2: "#eee4da",
-#     4: "#ede0c8",
-#     8: "#f2b179",
-#     16: "#f59563",
-#     32: "#f67c5f",
-#     64: "#f65e3b",
-#     128: "#edcf73",
-#     256: "#edcc62",
-#     512: "#edc850",
-#     1024: "#eec745",
-#     2048: "#eec434",
-# }
-# SVG_FALLBACK_TILE_COLORS = "#3c3a32"
+SVG_BACKGROUND_COLOR = "#a6a6a6"
+SVG_EMPTY_TILE_COLOR = "#c9c9c9"
+SVG_TEXT_COLOR_LIGHT = "#fefbf7"
+SVG_TEXT_COLOR_DARK = "#383834"
+SVG_TILE_COLORS = {
+    0: SVG_EMPTY_TILE_COLOR,
+    2: "#eee4da",
+    4: "#ede0c8",
+    8: "#f2b179",
+    16: "#f59563",
+    32: "#f67c5f",
+    64: "#f65e3b",
+    128: "#edcf73",
+    256: "#edcc62",
+    512: "#edc850",
+    1024: "#eec745",
+    2048: "#eec434",
+}
+SVG_FALLBACK_TILE_COLORS = "#3c3a32"
 
 
 # BLUE COLORS
@@ -69,4 +69,3 @@ SVG_TILE_COLORS = {
     32768: "#0D1728",
 }
 SVG_FALLBACK_TILE_COLORS = "#08101D"
-

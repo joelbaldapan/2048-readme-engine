@@ -1,10 +1,11 @@
-"""game.models module.
-
-This module contains core models for the 2048 game engine, including the game board logic and user statistics tracking.
+"""Core models for the 2048 game engine.
 
 Modules:
-    game_board: Implements the GameBoard class for managing state, moves, scores, saving/loading, and game overs.
-    user_stats: Provides the UserStats class for updating and storing user statistics such as moves and total score.
+    game_board: GameBoard class for board state, moves, scoring, saving/loading, and game over detection.
+    user_stats: UserStats class for tracking and updating user statistics
+        (moves, total score).
+    global_stats: GlobalStats class for tracking overall game statistics
+        (high score, games finished, largest tile, total moves, unique users).
 
-Typical usage example:
+Usage:
 """

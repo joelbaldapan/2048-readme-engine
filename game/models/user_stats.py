@@ -11,7 +11,7 @@ class UserStats:
 
         # Make sure that the parent directories exist
         path = Path(USER_STATS_PATH)
-        path.parent.mkdir(parents=True, exist_ok=True) 
+        path.parent.mkdir(parents=True, exist_ok=True)
         if path.exists():
             with open(USER_STATS_PATH) as file:
                 try:

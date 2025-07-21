@@ -1,9 +1,10 @@
-"""game.controllers.
+"""Controller logic for the 2048 game engine.
 
-This package contains controller logic for the 2048 game engine.
-
-It manages game state transitions, user actions, and coordination between models and views.
+What it does:
+    - Manages game state transitions and user actions.
+    - Coordinates between models (game state, stats) and views (rendering).
+    - Provides the GameController class for handling moves, board resets, score updates, and rendering.
 
 Modules:
-    - controller: Defines the GameController class, which manages game moves, board resets, score updates, and renders.
+    - controller: Main controller implementation for game logic and orchestration.
 """

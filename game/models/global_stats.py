@@ -1,31 +1,27 @@
 import json
 from pathlib import Path
-from typing import List
 
-from game.config import GLOBAL_STATS_FILE_PATH, BOARD_SIZE
+from game.config import BOARD_SIZE, GLOBAL_STATS_FILE_PATH
 
 
 class GlobalStats:
     @staticmethod
-    def update_on_move(current_game_total_score: int, current_board_state: List[List[int]], username: str) -> None:
+    def update_on_move(current_game_total_score: int, current_board_state: list[list[int]], username: str) -> None:
         stats = GlobalStats._load_stats()
 
         # Increment total_moves
         stats["total_moves"] += 1
 
         # Update high_score
-        if current_game_total_score > stats["high_score"]:
-            stats["high_score"] = current_game_total_score
+        stats["high_score"] = max(stats["high_score"], current_game_total_score)
 
         # Calculate and update largest_tile
         current_largest_tile = 0
         for r in range(BOARD_SIZE):
             for c in range(BOARD_SIZE):
-                if current_board_state[r][c] > current_largest_tile:
-                    current_largest_tile = current_board_state[r][c]
+                current_largest_tile = max(current_largest_tile, current_board_state[r][c])
 
-        if current_largest_tile > stats["largest_tile"]:
-            stats["largest_tile"] = current_largest_tile
+        stats["largest_tile"] = max(stats["largest_tile"], current_largest_tile)
 
         # Update unique_users
         if username not in stats["known_users"]:
@@ -44,10 +40,12 @@ class GlobalStats:
 
     @staticmethod
     def _load_stats() -> dict:
-        """Load global stats from file
-        
+        """Load global stats from file.
+
         Returns:
-            dict: The stats. Gives default if file doesn't exist or is corrupted."""
+            dict: The stats. Gives default if file doesn't exist or is corrupted.
+
+        """
         stats_path = Path(GLOBAL_STATS_FILE_PATH)
         default_stats = {
             "high_score": 0,
@@ -55,7 +53,7 @@ class GlobalStats:
             "largest_tile": 0,
             "total_moves": 0,
             "unique_users": 0,
-            "known_users": []
+            "known_users": [],
         }
 
         stats_path.parent.mkdir(parents=True, exist_ok=True)
@@ -64,10 +62,10 @@ class GlobalStats:
             with stats_path.open("r") as file:
                 try:
                     loaded_stats = json.load(file)
-                    default_stats.update(loaded_stats) # Update with existing data
+                    default_stats.update(loaded_stats)  # Update with existing data
                 except json.JSONDecodeError:
                     print(f"Warning: {GLOBAL_STATS_FILE_PATH} is empty or corrupted. Initializing with default stats.")
-                    pass # default_stats already has default values
+                    # default_stats already has default values
         return default_stats
 
     @staticmethod

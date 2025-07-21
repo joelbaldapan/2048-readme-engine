@@ -1,11 +1,17 @@
 from typing import Literal
 
-from game.config import BOARD_SIZE, GAME_FILE_PATH, BOARD_FILE_PATH, ARCHIVE_BOARD_HISTORY_PATH, ARCHIVE_GAME_HISTORY_PATH
+from game.config import (
+    ARCHIVE_BOARD_HISTORY_PATH,
+    ARCHIVE_GAME_HISTORY_PATH,
+    BOARD_FILE_PATH,
+    BOARD_SIZE,
+    GAME_FILE_PATH,
+)
 from game.models.game_board import GameBoard
-from game.models.user_stats import UserStats
 from game.models.global_stats import GlobalStats
-from game.views.view import BoardRenderer
+from game.models.user_stats import UserStats
 from game.utils.archive_file import archive_file
+from game.views.view import BoardRenderer
 
 VALID_DIRECTIONS = ("up", "down", "left", "right")
 Direction = Literal["up", "down", "left", "right"]
@@ -21,7 +27,6 @@ class GameController:
 
     def reset(self) -> None:
         """Reset the board: backs up the current file, creates a new board, and saves it."""
-
         # Archive current board if it exists
         if self.board:
             self._archive()
@@ -31,7 +36,7 @@ class GameController:
         board.add_random_tile()
         board.save(GAME_FILE_PATH, username=self.username)
 
-        self.board = board # Update the controller's board instance
+        self.board = board  # Update the controller's board instance
         self.renderer.render_to_svg(self.board.board, self.board.total_score)
         print(f"New board saved to {GAME_FILE_PATH} (size: {BOARD_SIZE}x{BOARD_SIZE})")
 
@@ -67,9 +72,9 @@ class GameController:
         # Reset the board for a new game and render it
         self.reset()
         print("New game started.")
-    
+
     # Private methods below
-    def _archive(self) -> None:    
+    def _archive(self) -> None:
         # Archive game state
         archive_file(GAME_FILE_PATH, ARCHIVE_GAME_HISTORY_PATH)
         print(f"Final game state archived to {ARCHIVE_GAME_HISTORY_PATH}")
