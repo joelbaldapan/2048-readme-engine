@@ -174,4 +174,8 @@ Finished games are automatically archived inside the following directories in th
 - `data/board/history/`
 - `data/state/history`
 
+## License
+This project and its code are released under the [MIT License](LICENSE).
 
+If you use or adapt it in your own repositories, a link back to this repo would be greatly appreciated! :D  
+**Thank you for visiting 2048 GitHub!**
