@@ -69,7 +69,7 @@ def generate_top_scorers_table() -> str:
             total_score = stats.get("total_score", 0)
             username_link = f"[@{username}](https://github.com/{username})"
             table_rows.append(f"| {i + 1} | {username_link} | {total_score} |")
-            
+
     except (FileNotFoundError, json.JSONDecodeError):
         table_rows.append("| No top scorers yet. | - | - |")
 

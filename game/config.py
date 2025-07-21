@@ -1,7 +1,7 @@
 BOARD_SIZE: int = 5
 GAME_FILE_PATH: str = "data/current_game.json"
 USER_STATS_PATH: str = "data/users.json"
-BOARD_FILE_PATH: str = "board/current_board.svg"
+BOARD_FILE_PATH: str = "data/board/current_board.svg"
 
 # SVG Rendering Constants
 SVG_TILE_SIZE = 100
@@ -11,7 +11,7 @@ SVG_SCORE_HEIGHT = 60
 
 # FONT
 SVG_FONT_SIZE = 42
-SVG_FONT_FILE = "game/fonts/MartianMono-Bold.ttf"
+SVG_FONT_FILE = "assets/fonts/MartianMono-Bold.ttf"
 SVG_FONT_FAMILY = "Martian Mono"
 
 # VANILLA COLORS
